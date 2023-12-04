@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { YOUTUBE_API_KEY } from "../../utils/constants";
 import PlayListCard from "./PlayListCard";
 import { Link } from "react-router-dom";
+import "./PlayListContainer.css";
 
 const PlayListContainer = ({ info, plalistId }) => {
   const [plauListInfo, setPlaylistInfo] = useState([]);
@@ -17,10 +18,16 @@ const PlayListContainer = ({ info, plalistId }) => {
     const json = await data.json();
     setPlaylistInfo(json.items);
   };
+
+  if (plauListInfo.length === 0) return;
+
   return (
-    <div className="flex flex-col flex-wrap ">
+    <div className="flex flex-col flex-wrap " id="content">
       <h1
-        className="  text-2xl "
+        className="
+         font-serif
+         text-xl
+      "
         style={{
           margin: "1rem 0 1rem 2rem",
           fontFamily: "ui-monospace",
@@ -29,16 +36,15 @@ const PlayListContainer = ({ info, plalistId }) => {
         {info.snippet.title}
       </h1>
 
-      <div className="px-8 flex  flex-wrap   justify-start  gap-4 border-white border-b-black  p-2">
-        {plauListInfo.length !== 0 &&
-          plauListInfo.map((video) => (
-            <Link
-              to={"/watch?v=" + video.snippet.resourceId.videoId}
-              key={video.id}
-            >
-              <PlayListCard info={video} plalistId={video.id}></PlayListCard>
-            </Link>
-          ))}
+      <div className="flex justify-center gap-4 sm:justify-between mb-3 py-1 px-2 sm:px-7 max-w-[95rem] ">
+        {plauListInfo.map((video) => (
+          <Link
+            to={"/watch?v=" + video.snippet.resourceId.videoId}
+            key={video.id}
+          >
+            <PlayListCard info={video} plalistId={video.id}></PlayListCard>
+          </Link>
+        ))}
       </div>
     </div>
   );

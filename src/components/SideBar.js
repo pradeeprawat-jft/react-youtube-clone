@@ -12,8 +12,8 @@ const SideBar = () => {
   if (!toggleMenu || !videoCategoriesList) return null;
 
   return (
-    <div className="col-span-2 mt-20">
-      <ul className="p-3">
+    <div className="col-span-2 mt-20 shadow-xl">
+      <ul className="py-3 ps-3">
         {videoCategoriesList.map((item) => (
           <Link to="/" key={item.id}>
             <li
