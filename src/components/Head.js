@@ -4,6 +4,7 @@ import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,13 +38,15 @@ const Head = () => {
           className="h-5 me-3 text-gray-400 cursor-pointer hover:text-gray-500"
           onClick={toggleSideMenu}
         />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube_logo_%282017%29.png"
-          alt="youtube icon"
-          className="w-22 h-5"
-        />
+        <Link to="/">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube_logo_%282017%29.png"
+            alt="youtube icon"
+            className="w-22 h-5"
+          />
+        </Link>
       </div>
-      <div className="col-span-10 px-10 relative">
+      <div className="col-span-10 text-center px-10 relative">
         <div className="relative">
           <input
             type="text"
@@ -58,12 +61,15 @@ const Head = () => {
           </button>
         </div>
         {showrecommnended && (
-          <div className="absolute left-10 mt-1 bg-white rounded-b-lg shadow-lg w-[43rem]">
-            <ul>
-              {recommnended.map((item) => (
-                <li key={item} className="p-2 hover:bg-gray-100 cursor-pointer">
-                  <FontAwesomeIcon icon={faSearch} className="pe-4" /> {item}
-                </li>
+          <div className="absolute   left-[21.5rem]  mt-1 bg-white rounded-b-lg shadow-lg w-[43rem] text-start">
+            <ul className="p-3">
+              {recommnended.map((item, id) => (
+                <Link to={"/results?search_query=" + item} key={id}>
+                  <li className="px-5 py-2 hover:bg-gray-100 cursor-pointer text-mono ">
+                    <FontAwesomeIcon icon={faSearch} className="pe-3" />
+                    {item}
+                  </li>
+                </Link>
               ))}
             </ul>
           </div>

@@ -22,14 +22,14 @@ const PlayListContainer = ({ info, plalistId }) => {
       <h1
         className="  text-2xl "
         style={{
-          margin: "1rem 0 2rem 2rem",
+          margin: "1rem 0 1rem 2rem",
           fontFamily: "ui-monospace",
         }}
       >
         {info.snippet.title}
       </h1>
-     
-      <div className="px-8 flex  flex-wrap   justify-start  gap-12 border-white border-b-black  p-3">
+
+      <div className="px-8 flex  flex-wrap   justify-start  gap-4 border-white border-b-black  p-2">
         {plauListInfo.length !== 0 &&
           plauListInfo.map((video) => (
             <Link

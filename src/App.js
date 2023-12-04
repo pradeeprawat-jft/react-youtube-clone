@@ -7,6 +7,7 @@ import VideoContainer from "./components/VideoContainer";
 import WatchPage from "./components/WatchPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ChannelPage from "./components/channelComponents/ChannelPage";
+import ResultsPage from "./components/ResultComponents/ResultsPage";
 
 function App() {
   const appRouter = new createBrowserRouter([
@@ -23,8 +24,12 @@ function App() {
           element: <WatchPage></WatchPage>,
         },
         {
-          path: "/chennel",
+          path: "/channel",
           element: <ChannelPage></ChannelPage>,
+        },
+        {
+          path: "/results",
+          element: <ResultsPage></ResultsPage>,
         },
       ],
     },
@@ -32,7 +37,6 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Head></Head>
       <RouterProvider router={appRouter}></RouterProvider>
     </Provider>
   );

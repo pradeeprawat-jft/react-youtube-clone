@@ -70,7 +70,7 @@ const ChannelPage = () => {
         <ProfileHeader info={channelInfo} channelId={channelId} />
       )}
       <div className="my-5 border border-b-black  "></div>
-      <div className="px-8 flex justify-between flex-wrap">
+      <div className="px-3 flex justify-between flex-wrap">
         {playlistInfo.length !== 0 &&
           playlistInfo.map((video) => (
             <PlayListContainer
