@@ -93,7 +93,7 @@ const WatchPage = () => {
           <h1 className="uppercase font-bold mb-2">{snippet.title}</h1>
           <div className="flex flex-col md:flex-row items-center justify-between my-5 py-3 px-10">
             <div className="flex items-center mb-2 md:mb-0">
-              <Link to={"/chennel?c=" + snippet.channelId}>
+              <Link to={"/channel?c=" + snippet.channelId}>
                 <span className="flex items-center">
                   <p className="me-3 px-3 py-1 text-white font-bold rounded-full bg-gray-500">
                     {snippet.channelTitle.slice(0, 1)}

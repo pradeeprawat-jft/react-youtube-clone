@@ -20,7 +20,7 @@ const SideBarVideo = ({ info }) => {
       </div>
       <div className=" col-span-7 px-1 py-2">
         <div className="font-bold text-md mb-1  line-clamp-2">{title}</div>
-        <Link to={"/chennel?c=" + snippet.channelId}>
+        <Link to={"/channel?c=" + snippet.channelId}>
           <p className="text-gray-700 text-base mb-1">{channelTitle}</p>
         </Link>
         <p className="text-gray-600 text-sm">

@@ -24,7 +24,7 @@ const VideoCard = ({ info }) => {
 
       <div className="px-6 py-4 shadow-sm">
         <div className="font-bold text-md mb-2 line-clamp-2">{title}</div>
-        <Link to={"/chennel?c=" + snippet.channelId}>
+        <Link to={"/channel?c=" + snippet.channelId}>
           <p className="text-gray-500 font-bold mb-2">{channelTitle}</p>
         </Link>
         <p className="text-gray-500 text-sm">
