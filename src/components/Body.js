@@ -5,7 +5,7 @@ import Head from "./Head";
 
 const Body = () => {
   return (
-    <div className="grid grid-flow-col">
+    <div className="grid grid-flow-col grid-cols-10 ">
       <Head></Head>
       <SideBar></SideBar>
       <Outlet></Outlet>

@@ -10,7 +10,7 @@ const VideoCard = ({ info }) => {
   const formattedDate = useDateFormatter(snippet.publishedAt);
   const { minutes, seconds } = useDurationConverter(contentDetails.duration);
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-sm bg-white mb-7 relative">
+    <div className="max-w-xs rounded overflow-hidden shadow-sm bg-white mb-4 relative">
       <div className="relative">
         <img
           className="w-full h-48 object-cover"
@@ -21,8 +21,7 @@ const VideoCard = ({ info }) => {
           {minutes}:{seconds}
         </p>
       </div>
-
-      <div className="px-6 py-4 shadow-sm">
+      <div className="px-6 py-4 shadow-sm min-h-[8.8rem]">
         <div className="font-bold text-md mb-2 line-clamp-2">{title}</div>
         <Link to={"/channel?c=" + snippet.channelId}>
           <p className="text-gray-500 font-bold mb-2">{channelTitle}</p>

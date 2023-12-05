@@ -26,7 +26,7 @@ const Comment = ({ data }) => {
         className="w-14 rounded-full h-[3.6rem]"
       />
       <div className="flex-grow px-3">
-        <p className="font-bold pb-1">
+        <p className=" pb-1  font-semibold">
           {authorDisplayName}
           <span className="font-light">
             {" "}
@@ -61,7 +61,10 @@ const CommentReplies = ({ replies }) => {
   return (
     <div>
       {replies.comments.map((comments) => (
-        <div key={comments.id} className=" ml-5 pl-5  border border-l-black">
+        <div
+          key={comments.id}
+          className=" ml-5 pl-5  border-l-2 border-l-gray-300 "
+        >
           <Comment data={comments}></Comment>
         </div>
       ))}
@@ -73,7 +76,7 @@ const CommentList = ({ comments }) => {
   return (
     <div className="mt-10">
       {comments.map((comment) => (
-        <div key={comment.id} className=" pl-5">
+        <div key={comment.id} className="pl-5">
           <Comment data={comment.snippet.topLevelComment}></Comment>
           {comment.replies && (
             <CommentReplies replies={comment.replies}></CommentReplies>
@@ -97,14 +100,37 @@ const CommentsContainer = ({ commentsCount, videoId }) => {
     );
     const json = await data.json();
     setCommentsData(json.items);
-    console.log(json.items);
   };
   return (
     <div>
-      <h1 className="text-2xl pl-3 mb-4 font-serif">
+      <h1 className="text-xl pl-4 mb-4 font-serif">
         {commentsCount} Comments{" "}
       </h1>
-      <hr></hr>
+      <form>
+        <div className="flex my-4 px-4 flex-col">
+          <input
+            type="text"
+            placeholder="add a Comment........."
+            className="w-full p-3 border-b-4 border-b-gray-300 outline-none"
+          ></input>
+          <br></br>
+          <div className=" text-right ">
+            <button
+              type="reset"
+              className="px-6 py-2 bg-red-500 me-5 rounded-sm text-white"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-blue-500 rounded-sm text-white"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+
       <CommentList comments={commentsData}></CommentList>
     </div>
   );

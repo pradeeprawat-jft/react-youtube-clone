@@ -1,7 +1,6 @@
 import useDateFormatter from "../../hooks/useDateFormatter";
 
 const PlayListCard = ({ info }) => {
-  console.log(info);
   const { snippet } = info;
   const { channelTitle, title, thumbnails } = snippet;
   const formattedDate = useDateFormatter(snippet.publishedAt);

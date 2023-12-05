@@ -1,30 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useDateFormatter from "../../hooks/useDateFormatter";
+import { YOUTUBE_API_KEY } from "../../utils/constants";
 
-const VideoCard = ({ video }) => {
-  const dateFormatter = useDateFormatter(video.snippet.publishedAt);
+const VideoCard = ({ video, channelID }) => {
+  const [channelInfo, setChannelInfo] = useState(null);
+  const { snippet } = video;
+  const dateFormatter = useDateFormatter(snippet.publishedAt);
 
+  useEffect(() => {
+    getChannelInfo();
+  }, [channelID]);
+
+  const getChannelInfo = async () => {
+    const data = await fetch(
+      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelID}&key=${YOUTUBE_API_KEY}`
+    );
+
+    const json = await data.json();
+    setChannelInfo(json.items[0]);
+    console.log("channelInfo-----------------", json.items[0]);
+  };
+  if (channelInfo === null) return;
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md">
-      <img
-        src={video.snippet.thumbnails.medium.url}
-        alt={video.snippet.title}
-        className="w-full h-40 object-cover rounded-t-xl"
-      />
-      <div className="p-4 min-h-[14.2rem]  max-h-[14.2rem]">
-        <h2 className="text-md font-semibold mb-2   line-clamp-1 ">
-          {video.snippet.title}
+    <div className="bg-white rounded-lg shadow-md flex  w-full min-w-[40rem] ">
+      <div className="col-span-4">
+        <img
+          src={snippet.thumbnails.medium.url}
+          alt={snippet.title}
+          className="w-full h-full p-2  object-cover rounded-xl"
+        />
+      </div>
+
+      <div className="p-4 min-h-[14.2rem]  max-h-[14.2rem] flex flex-col justify-center ">
+        <h2 className="text-md font-semibold mb-2   line-clamp-2 ">
+          {snippet.title}
         </h2>
         <p className="text-gray-600">{dateFormatter}</p>
-        <span className="flex items-center my-3">
-          <p className="me-3 px-3 py-1 text-white font-bold rounded-full bg-gray-500">
-            {video.snippet.channelTitle.slice(0, 1)}
-          </p>
-          <p className="text-gray-600 me-5">{video.snippet.channelTitle}</p>
-        </span>
-        <p className="text-gray-600   line-clamp-2  ">
-          {video.snippet.description}
+        <Link to={"/channel?c=" + snippet.channelId}>
+          <span className="flex items-center my-3">
+            <img
+              src={channelInfo.snippet.thumbnails.default.url}
+              className="h-10 w-13 me-2  rounded-full"
+            ></img>
+            <p
+              className="text-gray-600 font-bold me-5"
+              style={{ fontFamily: "serif" }}
+            >
+              {snippet.channelTitle}
+            </p>
+          </span>
+        </Link>
+        <p
+          className="text-gray-600 line-clamp-3 "
+          style={{ fontFamily: "serif" }}
+        >
+          {snippet.description}
         </p>
       </div>
     </div>

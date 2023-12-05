@@ -12,7 +12,11 @@ const ProfileHeader = ({ info }) => {
     <div className="mt-10 grid grid-flow-col p-2">
       <div className="col-span-2  flex justify-end pe-10 ">
         <img
-          src={thumbnails.high.url}
+          src={
+            thumbnails.high.url
+              ? thumbnails.default.url
+              : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+          }
           alt="youtube icon"
           className="w-[13rem] h-[13rem] rounded-full border border-black "
         />

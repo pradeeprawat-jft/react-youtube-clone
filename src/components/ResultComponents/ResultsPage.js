@@ -30,16 +30,20 @@ const ResultsPage = () => {
   };
 
   return (
-    <div className="container mx-auto mt-20">
-      <h1 className="text-md font-bold mb-4 pt-6">
+    <div className="col-span-11 mx-auto mt-20 px-14">
+      <h1 className="text-md font-bold mb-9 pt-6">
         Search Results for "{searchQuery}"
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-10">
         {videos.map(
           (video) =>
             video.id.kind === "youtube#video" && (
               <Link to={"/watch?v=" + video.id.videoId} key={video.id.videoId}>
-                <VideoCard key={video.id.videoId} video={video} />
+                <VideoCard
+                  key={video.id.videoId}
+                  video={video}
+                  channelID={video.snippet.channelId}
+                />
               </Link>
             )
         )}

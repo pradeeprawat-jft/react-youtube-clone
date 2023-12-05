@@ -29,7 +29,6 @@ const ChannelPage = () => {
       const json = await data.json();
       const bannerUrl =
         json.items[0]?.brandingSettings?.image?.bannerExternalUrl || "";
-
       setBanner(bannerUrl);
     } catch (error) {
       console.error("Error fetching banner:", error);
@@ -51,7 +50,6 @@ const ChannelPage = () => {
     );
     const json = await data.json();
     setPlaylistInfo(json.items);
-    console.log("playlist id and name", json.items);
   };
 
   return (
