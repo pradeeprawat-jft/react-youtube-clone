@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useDateFormatter from "../../hooks/useDateFormatter";
-import { YOUTUBE_API_KEY } from "../../utils/constants";
+import useChannelInfo from "../../hooks/useChannelInfo";
 
 const VideoCard = ({ video, channelID }) => {
-  const [channelInfo, setChannelInfo] = useState(null);
   const { snippet } = video;
   const dateFormatter = useDateFormatter(snippet.publishedAt);
+  const channelInfo = useChannelInfo(snippet.channelId);
 
-  useEffect(() => {
-    getChannelInfo();
-  }, [channelID]);
-
-  const getChannelInfo = async () => {
-    const data = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelID}&key=${YOUTUBE_API_KEY}`
-    );
-
-    const json = await data.json();
-    setChannelInfo(json.items[0]);
-    console.log("channelInfo-----------------", json.items[0]);
-  };
   if (channelInfo === null) return;
   return (
     <div className="bg-white rounded-lg shadow-md flex  w-full min-w-[40rem] ">

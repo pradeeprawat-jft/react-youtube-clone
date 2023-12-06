@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { YOUTUBE_API, YOUTUBE_API_KEY } from "../utils/constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComment,
@@ -16,65 +15,30 @@ import SideBarVideo from "./SideBarVideo";
 import CommentsContainer from "./CommentsContainer";
 import { useDispatch } from "react-redux";
 import { closeMenu } from "../utils/appSlice";
+import useChannelInfo from "../hooks/useChannelInfo";
+import useYouTubeSearch from "../hooks/useYouTubeSearch";
+import useVideoData from "../hooks/useVideoData";
+// import { PlaylistStyleSideBarVideo } from "./SideBarVideo";
 
 const WatchPage = () => {
-  const [snippet, setSnippet] = useState({
-    title: "",
-    channelTitle: "",
-    publishedAt: "",
-    description: "",
-  });
-  const [statistics, setStatistics] = useState({
-    viewCount: 0,
-    likeCount: 0,
-    dislikeCount: 0,
-    commentCount: 0,
-  });
   const [searchParam] = useSearchParams();
   const videoId = searchParam.get("v");
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(closeMenu());
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    getVideoById(videoId);
-    getVideos();
-  }, [videoId]);
-
-  const [sideVideos, setSideVideos] = useState([]);
-
-  const getVideos = async () => {
-    const data = await fetch(YOUTUBE_API);
-    const json = await data.json();
-    setSideVideos(json.items);
-  };
-
-  const getVideoById = async (videoId) => {
-    try {
-      const response = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${YOUTUBE_API_KEY}`
-      );
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch video data. Status: ${response.status}`
-        );
-      }
-      const json = await response.json();
-      const videoData = json.items[0];
-      setSnippet(videoData.snippet || {});
-      setStatistics(videoData.statistics || {});
-    } catch (error) {
-      console.error("Error fetching video data:", error);
-    }
-  };
-
+  const { snippet, statistics } = useVideoData(videoId);
+  const channelInfo = useChannelInfo(snippet.channelId);
+  const videos = useYouTubeSearch(snippet.tags[0]);
+  const memoizedVideos = useMemo(() => videos, [videos]);
   const formattedViewNumber = useNumberFormatter(statistics.viewCount);
   const formattedCommentNumber = useNumberFormatter(statistics.commentCount);
   const formattedLikeNumber = useNumberFormatter(statistics.likeCount);
   const formattedDate = useDateFormatter(snippet.publishedAt);
+
+  if (!channelInfo) return null;
 
   return (
     <div className="col-span-10 mt-20">
@@ -94,11 +58,18 @@ const WatchPage = () => {
             <div className="flex flex-col md:flex-row items-center justify-between my-5 py-3 px-4">
               <div className="flex items-center mb-2 md:mb-0">
                 <Link to={"/channel?c=" + snippet.channelId}>
-                  <span className="flex items-center">
-                    <p className="me-3 px-3 py-1 text-white font-bold rounded-full bg-gray-500">
-                      {snippet.channelTitle.slice(0, 1)}
+                  <span className="flex items-center ">
+                    <img
+                      src={channelInfo.snippet.thumbnails.default.url}
+                      className="h-10 w-13 me-2  rounded-full"
+                      alt="Channel Thumbnail"
+                    ></img>
+                    <p
+                      className="text-gray-600 font-bold me-5"
+                      style={{ fontFamily: "serif" }}
+                    >
+                      {snippet.channelTitle}
                     </p>
-                    <p className="text-gray-600 me-5">{snippet.channelTitle}</p>
                   </span>
                 </Link>
 
@@ -107,20 +78,20 @@ const WatchPage = () => {
                 </p>
               </div>
               <div className="flex gap-2">
-                <span className="text-gray-200 font-bold px-2 py-1 bg-gray-600 rounded-md flex items-center justify-between">
+                <span className="text-gray-200 font-bold px-2 py-1 bg-gray-600 rounded-md flex items-center justify-between  cursor-pointer ">
                   {formattedLikeNumber}{" "}
                   <FontAwesomeIcon icon={faThumbsUp} className="px-2" />
                   |
                   <FontAwesomeIcon icon={faThumbsDown} className="px-2" />
                 </span>
-                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md">
+                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md  cursor-pointer ">
                   {formattedCommentNumber}{" "}
                   <FontAwesomeIcon icon={faComment} className="px-2" />
                 </span>
-                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md">
+                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md  cursor-pointer ">
                   <FontAwesomeIcon icon={faShare} className="px-2" />
                 </span>
-                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md">
+                <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md  cursor-pointer ">
                   <FontAwesomeIcon icon={faDownload} className="px-2" />
                 </span>
                 <span className="text-gray-200 font-bold px-3 py-1 bg-gray-600 text-center rounded-md">
@@ -128,9 +99,8 @@ const WatchPage = () => {
                 </span>
               </div>
             </div>
-            <div className="p-4 shadow-md mx-4">
+            <div className="p-2 shadow-md mx-4">
               <p className="mb-3 text-gray-500" style={{ fontFamily: "serif" }}>
-                {/* {formattedViewNumber} Views {formattedDate} */}
                 {formattedViewNumber} Views • {formattedDate}
               </p>
               <div className="py-1">
@@ -154,10 +124,28 @@ const WatchPage = () => {
           </div>
         </div>
         <div className="md:col-span-3 border border-gray-200 p-4">
-          {sideVideos.map((video) => (
-            <Link to={"/watch?v=" + video.id} key={video.id}>
-              <SideBarVideo info={video}></SideBarVideo>
-            </Link>
+          {memoizedVideos.map((video) => (
+            <>
+              {console.log(video)}
+              {video.id.kind === "youtube#video" && (
+                <Link
+                  to={`/watch?v=${video.id.videoId}`}
+                  key={video.id.videoId}
+                >
+                  <SideBarVideo info={video.snippet}></SideBarVideo>
+                </Link>
+              )}
+              {/* {video.id.kind === "youtube#playlist" && (
+                <Link
+                  to={`/watch?v=${video.id.playlistId}`}
+                  key={video.id.videoId}
+                >
+                  <PlaylistStyleSideBarVideo
+                    info={video.snippet}
+                  ></PlaylistStyleSideBarVideo>
+                </Link>
+              )} */}
+            </>
           ))}
         </div>
       </div>

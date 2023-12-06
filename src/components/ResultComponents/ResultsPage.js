@@ -1,33 +1,12 @@
-// ResultsPage.js
-import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { YOUTUBE_API_KEY } from "../../utils/constants";
 import VideoCard from "./VideoCard";
+import useYouTubeSearch from "../../hooks/useYouTubeSearch";
 
 const ResultsPage = () => {
-  const [videos, setVideos] = useState([]);
-
   const [searchParam] = useSearchParams();
   const searchQuery = searchParam.get("search_query");
 
-  useEffect(() => {
-    getDetails();
-  }, [searchQuery]);
-
-  const getDetails = async () => {
-    try {
-      const data = await fetch(
-        `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchQuery}&key=${YOUTUBE_API_KEY}`
-      );
-      const json = await data.json();
-
-      if (json.items) {
-        setVideos(json.items);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const videos = useYouTubeSearch(searchQuery);
 
   return (
     <div className="col-span-11 mx-auto mt-20 px-14">

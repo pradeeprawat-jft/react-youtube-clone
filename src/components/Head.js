@@ -35,6 +35,7 @@ const Head = () => {
   const changePage = (item) => {
     navigate(`/results?search_query=${item}`);
     setShowrecommnended(false);
+    setSearchQuery(item);
   };
 
   return (
@@ -66,7 +67,7 @@ const Head = () => {
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
-        {showrecommnended && (
+        {showrecommnended && searchQuery !== "" && (
           <div className="absolute   left-[21.5rem]  mt-1 bg-white rounded-b-lg shadow-lg w-[43rem] text-start">
             <ul className="p-3">
               {recommnended.map((item, id) => (

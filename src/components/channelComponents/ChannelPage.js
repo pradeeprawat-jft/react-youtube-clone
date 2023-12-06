@@ -5,18 +5,17 @@ import { useSearchParams } from "react-router-dom";
 import { openMenu } from "../../utils/appSlice";
 import ProfileHeader from "./ProfileHeader";
 import PlayListContainer from "./PlayListContainer";
+import useChannelInfo from "../../hooks/useChannelInfo";
 
 const ChannelPage = () => {
   const [searchParam] = useSearchParams();
   const channelId = searchParam.get("c");
-  const [channelInfo, setChannelInfo] = useState([]);
   const dispatch = useDispatch();
   const [banner, setBanner] = useState("");
   const [playlistInfo, setPlaylistInfo] = useState([]);
 
   useEffect(() => {
     dispatch(openMenu());
-    getChannelInfo();
     getBanner();
     getPlayList();
   }, []);
@@ -35,14 +34,7 @@ const ChannelPage = () => {
     }
   };
 
-  const getChannelInfo = async () => {
-    const data = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id=${channelId}&key=${YOUTUBE_API_KEY}`
-    );
-
-    const json = await data.json();
-    setChannelInfo(json.items[0]);
-  };
+  const channelInfo = useChannelInfo(channelId);
 
   const getPlayList = async () => {
     const data = await fetch(
@@ -64,7 +56,7 @@ const ChannelPage = () => {
           position: "relative",
         }}
       ></div>
-      {channelInfo.length !== 0 && (
+      {channelInfo !== null && (
         <ProfileHeader info={channelInfo} channelId={channelId} />
       )}
       <div className="my-5 border border-b-black  "></div>

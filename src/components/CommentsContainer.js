@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { YOUTUBE_API_KEY } from "../utils/constants";
 import useDateFormatter from "../hooks/useDateFormatter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import useCommentsData from "../hooks/useCommentsData";
+import { useState } from "react";
 
 const Comment = ({ data }) => {
   const {
@@ -18,7 +18,7 @@ const Comment = ({ data }) => {
     <div className="flex shadow-sm py-2 mb-3">
       <img
         src={
-          authorProfileImageUrl
+          authorProfileImageUrl !== ""
             ? authorProfileImageUrl
             : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
         }
@@ -74,7 +74,7 @@ const CommentReplies = ({ replies }) => {
 
 const CommentList = ({ comments }) => {
   return (
-    <div className="mt-10">
+    <div className="mt-5">
       {comments.map((comment) => (
         <div key={comment.id} className="pl-5">
           <Comment data={comment.snippet.topLevelComment}></Comment>
@@ -88,48 +88,39 @@ const CommentList = ({ comments }) => {
 };
 
 const CommentsContainer = ({ commentsCount, videoId }) => {
-  const [commentsData, setCommentsData] = useState([]);
-
-  useEffect(() => {
-    getComments();
-  }, []);
-
-  const getComments = async () => {
-    const data = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet%2Creplies&order=relevance&videoId=${videoId}&key=${YOUTUBE_API_KEY}`
-    );
-    const json = await data.json();
-    setCommentsData(json.items);
-  };
+  const commentsData = useCommentsData(videoId);
+  const [showButton, setShowButton] = useState(false);
+  const [commentText, setCommentText] = useState("");
+  if (commentsData === null) return;
   return (
     <div>
-      <h1 className="text-xl pl-4 mb-4 font-serif">
+      <h1 className="text-xl pl-4 mb-1 font-serif">
         {commentsCount} Comments{" "}
       </h1>
-      <form>
-        <div className="flex my-4 px-4 flex-col">
-          <input
-            type="text"
-            placeholder="add a Comment........."
-            className="w-full p-3 border-b-4 border-b-gray-300 outline-none"
-          ></input>
-          <br></br>
+      <div className="flex my-2 px-4 flex-col">
+        <input
+          type="text"
+          placeholder="add a Comment........."
+          className="w-full p-3 border-b-4 border-b-gray-300 outline-none"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          onFocus={() => setShowButton(true)}
+        ></input>
+        <br></br>
+        {showButton && commentText !== "" && (
           <div className=" text-right ">
             <button
-              type="reset"
               className="px-6 py-2 bg-red-500 me-5 rounded-sm text-white"
+              onClick={() => setCommentText("")}
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-500 rounded-sm text-white"
-            >
+            <button className="px-6 py-2 bg-blue-500 rounded-sm text-white">
               Submit
             </button>
           </div>
-        </div>
-      </form>
+        )}
+      </div>
 
       <CommentList comments={commentsData}></CommentList>
     </div>
