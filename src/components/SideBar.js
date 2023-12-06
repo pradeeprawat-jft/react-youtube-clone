@@ -7,7 +7,7 @@ import useVideoCategories from "../hooks/useVideoCategories";
 
 const SideBar = () => {
   const toggleMenu = useSelector((store) => store.app.isMenuOpen);
-  const { videoCategoriesList, loading, error } = useVideoCategories();
+  const { videoCategoriesList } = useVideoCategories();
 
   if (!toggleMenu || !videoCategoriesList) return null;
 

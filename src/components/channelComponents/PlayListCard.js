@@ -15,7 +15,7 @@ const PlayListCard = ({ info }) => {
         }
         alt={title}
       />
-      <div className="px-6 py-4 shadow-sm min-h-[8.2rem]">
+      <div className="px-3 py-4 shadow-sm min-h-[8.2rem]">
         <div className="font-bold text-md mb-1 line-clamp-2">{title}</div>
         <p className="text-gray-500 font-bold mb-1">{channelTitle}</p>
         <p className="text-gray-500 text-sm">{formattedDate}</p>

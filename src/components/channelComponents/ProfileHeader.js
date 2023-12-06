@@ -9,7 +9,7 @@ const ProfileHeader = ({ info }) => {
   const subscriber = useNumberFormatter(subscriberCount);
 
   return (
-    <div className="mt-10 grid grid-flow-col p-2">
+    <div className="mt-10 grid grid-flow-col p-2 ">
       <div className="col-span-2  flex justify-end pe-10 ">
         <img
           src={
