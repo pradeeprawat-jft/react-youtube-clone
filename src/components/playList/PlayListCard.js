@@ -1,20 +1,19 @@
-import useNumberFormatter from "../hooks/useFormatNumber";
-import useDateFormatter from "../hooks/useDateFormatter";
-import useDurationConverter from "../hooks/useDurationConverter";
+import useNumberFormatter from "../../hooks/useFormatNumber";
+import useDateFormatter from "../../hooks/useDateFormatter";
+import useDurationConverter from "../../hooks/useDurationConverter";
 import { Link } from "react-router-dom";
-import useChannelInfo from "../hooks/useChannelInfo";
+import useChannelInfo from "../../hooks/useChannelInfo";
 
-const VideoCard = ({ info }) => {
-  const { snippet, contentDetails, statistics } = info;
+const PlayListCard = ({ video }) => {
+  const { snippet, contentDetails, statistics } = video;
   const { channelTitle, title, thumbnails, channelId } = snippet;
   const formattedNumber = useNumberFormatter(statistics.viewCount);
   const formattedDate = useDateFormatter(snippet.publishedAt);
   const { minutes, seconds } = useDurationConverter(contentDetails.duration);
-
   const channelInfo = useChannelInfo(channelId);
 
   return (
-    <div className="max-w-xs rounded overflow-hidden shadow-sm bg-white mb-4 relative">
+    <div className="max-w-md rounded overflow-hidden shadow-md bg-white mb-4 relative">
       <div className="relative">
         <img
           className="w-full h-48 object-cover"
@@ -56,4 +55,4 @@ const VideoCard = ({ info }) => {
   );
 };
 
-export default VideoCard;
+export default PlayListCard;

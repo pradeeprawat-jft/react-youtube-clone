@@ -17,11 +17,12 @@ const Comment = ({ data }) => {
   return (
     <div className="flex shadow-sm py-2 mb-3">
       <img
-        src={
-          authorProfileImageUrl !== ""
-            ? authorProfileImageUrl
-            : "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-        }
+        src={authorProfileImageUrl}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src =
+            "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg";
+        }}
         alt="User profile"
         className="w-14 rounded-full h-[3.6rem]"
       />

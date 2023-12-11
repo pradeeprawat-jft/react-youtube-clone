@@ -1,13 +1,13 @@
 import { Provider } from "react-redux";
 import "./App.css";
 import Body from "./components/Body";
-import Head from "./components/Head";
 import store from "./utils/store";
 import VideoContainer from "./components/VideoContainer";
 import WatchPage from "./components/WatchPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ChannelPage from "./components/channelComponents/ChannelPage";
 import ResultsPage from "./components/ResultComponents/ResultsPage";
+import PlayList from "./components/playList/PlayList";
 
 function App() {
   const appRouter = new createBrowserRouter([
@@ -30,6 +30,10 @@ function App() {
         {
           path: "/results",
           element: <ResultsPage></ResultsPage>,
+        },
+        {
+          path: "/playlist",
+          element: <PlayList></PlayList>,
         },
       ],
     },

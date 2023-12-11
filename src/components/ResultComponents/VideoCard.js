@@ -27,6 +27,12 @@ const VideoCard = ({ video, channelID }) => {
           <span className="flex items-center my-3">
             <img
               src={channelInfo.snippet.thumbnails.default.url}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg";
+              }}
+              alt="channel info"
               className="h-10 w-13 me-2  rounded-full"
             ></img>
             <p

@@ -13,7 +13,7 @@ const ResultsPage = () => {
       <h1 className="text-md font-bold mb-9 pt-6">
         Search Results for "{searchQuery}"
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-10">
+      <div className="grid  grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-10">
         {videos.map(
           (video) =>
             video.id.kind === "youtube#video" && (

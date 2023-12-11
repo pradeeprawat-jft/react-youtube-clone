@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faList,
+  faSearch,
+  faBell,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +15,7 @@ import { Link } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const [recommnended, setRecommended] = useState([]);
   const [showrecommnended, setShowrecommnended] = useState(false);
   const dispatch = useDispatch();
@@ -33,24 +40,25 @@ const Head = () => {
   };
 
   const changePage = (item) => {
+    setSearchQuery("");
+
     navigate(`/results?search_query=${item}`);
     setShowrecommnended(false);
-    setSearchQuery(item);
   };
 
   return (
-    <div className="grid grid-flow-col items-center px-10 py-2 mb-5 shadow-md fixed top-0 w-full bg-white z-10">
-      <div className="col-span-1 flex justify-center">
+    <div className="grid grid-flow-col items-center px-8 py-2 mb-5 shadow-md fixed top-0 w-full bg-white z-10">
+      <div className="col-span-1 flex justify-start">
         <FontAwesomeIcon
           icon={faBars}
-          className="h-7 me-14 text-gray-400 cursor-pointer hover:text-gray-500"
+          className="h-6 me-8 text-gray-400 cursor-pointer hover:text-gray-500"
           onClick={toggleSideMenu}
         />
         <Link to="/">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube_logo_%282017%29.png"
             alt="youtube icon"
-            className="w-22 h-7"
+            className="w-22 h-6"
           />
         </Link>
       </div>
@@ -83,12 +91,41 @@ const Head = () => {
           </div>
         )}
       </div>
-      <div className="flex justify-center col-span-1">
-        <img
-          src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
-          alt=" User profile "
-          className="w-14"
-        />
+      <div className="flex justify-around col-span-1">
+        <button className="rounded-lg my-2 text-2xl text-gray-400 ">
+          <FontAwesomeIcon icon={faVideo} />
+        </button>
+        <button className="rounded-lg my-2 text-2xl text-gray-400 ">
+          <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+        </button>
+        <div className="flex flex-col relative">
+          <img
+            src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg"
+            alt=" User profile "
+            className="w-14"
+            onClick={() => setShowUserMenu(!showUserMenu)}
+          />
+          {showUserMenu && (
+            <div
+              className="absolute  right-0  mt-[4rem] bg-gray-200  rounded-b-sm shadow-lg w-[15rem] text-start"
+              onBlur={() => setShowUserMenu(false)}
+            >
+              <ul className="p-2">
+                <Link
+                  to="/playlist"
+                  onClick={() => {
+                    setShowUserMenu(false);
+                  }}
+                >
+                  <li className="px-5 py-2 hover:bg-gray-100 cursor-pointer text-mono text-gray-600  font-bold ">
+                    <FontAwesomeIcon icon={faList} className="pe-3" />
+                    <spna>PlayList</spna>
+                  </li>
+                </Link>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

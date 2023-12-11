@@ -18,9 +18,7 @@ const ChannelPage = () => {
   }, [dispatch]);
 
   const banner = useChannelBanner(channelId);
-  console.log("banner", banner);
   const channelInfo = useChannelInfo(channelId);
-
   const { playlistInfo } = usePlaylists(channelId);
 
   return (

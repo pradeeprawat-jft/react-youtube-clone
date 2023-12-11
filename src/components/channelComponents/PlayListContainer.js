@@ -12,6 +12,7 @@ const PlayListContainer = ({ info, plalistId }) => {
         className="
          font-serif
          text-xl
+         
       "
         style={{
           margin: "1rem 0 1rem 2rem",

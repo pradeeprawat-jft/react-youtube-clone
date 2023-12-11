@@ -8,7 +8,7 @@ const usePlaylistItems = (playlistId) => {
     const fetchPlaylistItems = async () => {
       try {
         const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${playlistId}&key=${YOUTUBE_API_KEY}`
+          `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=25&playlistId=${playlistId}&key=${YOUTUBE_API_KEY}`
         );
         if (!response.ok) {
           throw new Error(
