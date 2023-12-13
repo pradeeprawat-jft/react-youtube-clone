@@ -12,6 +12,8 @@ import { toggleMenu } from "../utils/appSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { cachedResults } from "../utils/searchSlice";
+import { useSelector } from "react-redux";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,8 +26,16 @@ const Head = () => {
     dispatch(toggleMenu());
   };
 
+  const searchedCaches = useSelector((store) => store.search);
+
   useEffect(() => {
-    const timer = setTimeout(() => getRecommnendedSearchQuery(), 200);
+    const timer = setTimeout(() => {
+      if (searchedCaches[searchQuery]) {
+        setRecommended(searchedCaches[searchQuery]);
+      } else {
+        getRecommnendedSearchQuery();
+      }
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -37,6 +47,11 @@ const Head = () => {
     );
     const json = await data.json();
     setRecommended(json[1]);
+    dispatch(
+      cachedResults({
+        [searchQuery]: json[1],
+      })
+    );
   };
 
   const changePage = (item) => {

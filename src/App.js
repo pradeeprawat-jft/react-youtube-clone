@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ChannelPage from "./components/channelComponents/ChannelPage";
 import ResultsPage from "./components/ResultComponents/ResultsPage";
 import PlayList from "./components/playList/PlayList";
+import WatchPlaylist from "./components/WatchPlaylist";
 
 function App() {
   const appRouter = new createBrowserRouter([
@@ -20,7 +21,7 @@ function App() {
           element: <VideoContainer></VideoContainer>,
         },
         {
-          path: "watch",
+          path: "/watch",
           element: <WatchPage></WatchPage>,
         },
         {
@@ -34,6 +35,10 @@ function App() {
         {
           path: "/playlist",
           element: <PlayList></PlayList>,
+        },
+        {
+          path: "/videoPlaylist",
+          element: <WatchPlaylist></WatchPlaylist>,
         },
       ],
     },

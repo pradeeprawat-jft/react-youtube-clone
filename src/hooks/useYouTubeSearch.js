@@ -4,6 +4,7 @@ import { YOUTUBE_API_KEY } from "../utils/constants";
 const useYouTubeSearch = (searchQuery) => {
   const [videos, setVideos] = useState([]);
 
+  console.log("searchQuery", searchQuery);
   useEffect(() => {
     const getDetails = async () => {
       try {

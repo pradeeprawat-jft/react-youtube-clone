@@ -5,10 +5,12 @@ import Head from "./Head";
 
 const Body = () => {
   return (
-    <div className="grid grid-flow-col grid-cols-10 ">
+    <div className="grid grid-flow-col grid-col-1 ">
       <Head></Head>
-      <SideBar></SideBar>
-      <Outlet></Outlet>
+      <div className="grid grid-flow-col grid-cols-12 ">
+        <SideBar></SideBar>
+        <Outlet></Outlet>
+      </div>
     </div>
   );
 };

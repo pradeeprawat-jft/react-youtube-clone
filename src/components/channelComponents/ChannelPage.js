@@ -21,18 +21,24 @@ const ChannelPage = () => {
   const channelInfo = useChannelInfo(channelId);
   const { playlistInfo } = usePlaylists(channelId);
 
+  console.log("banner.banner", banner.banner);
+
   return (
     <div className="col-span-11 mt-20 border border-gray-100 py-5 px-20 ">
       <div
         className="w-full h-[15rem] rounded-md"
         style={{
-          backgroundImage: banner ? `url(${banner.banner})` : "none",
+          backgroundImage:
+            banner.banner !== ""
+              ? `url(${banner.banner})`
+              : "linear-gradient(#FAF0E4, #F5EFE7)",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center center",
           position: "relative",
         }}
       ></div>
+
       {channelInfo !== null && (
         <ProfileHeader info={channelInfo} channelId={channelId} />
       )}

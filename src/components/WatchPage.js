@@ -37,7 +37,10 @@ const WatchPage = () => {
     ? channelInfo.statistics.subscriberCount
     : 0;
 
-  const videos = useYouTubeSearch(snippet.tags ? snippet.tags[0] : "");
+  console.log("--------", snippet.tags);
+  const videos = useYouTubeSearch(
+    snippet.tags !== undefined ? snippet.tags[0] : snippet.title
+  );
 
   const memoizedVideos = useMemo(() => videos, [videos]);
   const formattedViewNumber = useNumberFormatter(statistics.viewCount);
@@ -63,7 +66,7 @@ const WatchPage = () => {
   };
 
   return (
-    <div className="col-span-10 mt-20">
+    <div className="col-span-12 mt-20">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         <div className="md:col-span-9 border border-gray-200 p-4">
           <div className="aspect-w-16 aspect-video">
@@ -86,15 +89,15 @@ const WatchPage = () => {
                       className="h-12 w-13 me-2  rounded-full border-2 border-gray-300"
                       alt="Channel Thumbnail"
                     ></img>
-                    <div className="flex flex-col ml-3 ">
+                    <div className="flex flex-col ml-2 ">
                       <p
-                        className="text-gray-600 font-bold me-5"
+                        className="text-gray-600 font-bold me-2"
                         style={{ fontFamily: "serif" }}
                       >
                         {snippet.channelTitle}
                       </p>
                       <p
-                        className="text-gray-400  me-5"
+                        className="text-gray-400  me-2"
                         style={{ fontFamily: "serif", fontSize: "14px" }}
                       >
                         {formattedSubscriberCount} Subscribers
@@ -108,26 +111,26 @@ const WatchPage = () => {
                 </p>
               </div>
               <div className="flex gap-4">
-                <span className="text-gray-700 font-bold px-4 py-2 bg-gray-300 rounded-xl flex items-center justify-between  cursor-pointer ">
+                <span className="text-gray-500 font-bold px-4 py-2 bg-gray-100 rounded-xl flex items-center justify-between  cursor-pointer ">
                   <ThumbUpIcon sx={{ fontSize: 35 }} className="px-2" />{" "}
                   <span className="me-2">{formattedLikeNumber}</span>
                   |
                   <ThumbDownIcon sx={{ fontSize: 35 }} className="px-2" />
                 </span>
-                <span className="text-gray-700 font-bold px-4 py-2 bg-gray-300 text-center rounded-xl  cursor-pointer ">
+                <span className="text-gray-500 font-bold px-4 py-2 bg-gray-100 text-center rounded-xl  cursor-pointer ">
                   <ShareIcon sx={{ fontSize: 35 }} className="px-2" />{" "}
                   <span className="me-2">Share</span>
                 </span>
-                <span className="text-gray-700 font-bold px-4 py-2 bg-gray-300 text-center rounded-xl cursor-pointer ">
+                <span className="text-gray-500 font-bold px-4 py-2 bg-gray-100 text-center rounded-xl cursor-pointer ">
                   <DownloadIcon sx={{ fontSize: 35 }} className="px-2" />{" "}
                   <span className="me-2">Download</span>
                 </span>
-                <span className="text-gray-700 font-bold px-4 py-2 bg-gray-300 text-center rounded-xl cursor-pointer ">
+                <span className="text-gray-500 font-bold px-4 py-2 bg-gray-100 text-center rounded-xl cursor-pointer ">
                   <ContentCutIcon className="px-2" sx={{ fontSize: 35 }} />{" "}
                   <span className="me-2">Cut</span>
                 </span>
                 <span
-                  className="text-gray-700 font-bold px-4 py-2 bg-gray-300 text-center rounded-xl cursor-pointer"
+                  className="text-gray-500 font-bold px-4 py-2 bg-gray-100 text-center rounded-xl cursor-pointer"
                   onClick={() =>
                     videoAdded
                       ? removeVideoFromMyPlayList()
@@ -215,12 +218,12 @@ const WatchPage = () => {
               )}
               {video.id.kind === "youtube#playlist" && (
                 <Link
-                  to={`/watch?v=${video.id.playlistId}`}
+                  to={`/videoPlaylist?p=${
+                    video.id.playlistId
+                  }&title=${encodeURIComponent(video.snippet.title)}`}
                   key={video.id.videoId}
                 >
-                  <PlaylistStyleSideBarVideo
-                    info={video.snippet}
-                  ></PlaylistStyleSideBarVideo>
+                  <PlaylistStyleSideBarVideo info={video.snippet} />
                 </Link>
               )}
             </>

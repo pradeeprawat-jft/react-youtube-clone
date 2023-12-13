@@ -41,12 +41,15 @@ const VideoCard = ({ info }) => {
         </div>
         <div className="flex flex-col">
           <div className="font-bold text-md mb-2 line-clamp-2">{title}</div>
-          <p
-            className="text-gray-600 font-bold py-1"
-            style={{ fontFamily: "serif" }}
-          >
-            {channelTitle}
-          </p>
+          <Link to={"/channel?c=" + channelId}>
+            <p
+              className="text-gray-600 font-bold py-1"
+              style={{ fontFamily: "serif" }}
+            >
+              {channelTitle}
+            </p>
+          </Link>
+
           <p className="text-gray-500 text-sm">
             {formattedNumber} views • {formattedDate}
           </p>
