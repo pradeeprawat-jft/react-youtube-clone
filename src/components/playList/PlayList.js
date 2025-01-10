@@ -16,7 +16,7 @@ const PlayList = () => {
   }, [videoDetails, dispatch]);
 
   return (
-    <div className="col-span-11 mt-20 px-14">
+    <div className="col-span-12 mt-20 px-14">
       <h1 className="text-md font-bold mb-9 px-3 py-6 shadow-md">
         My PlayList{" "}
       </h1>

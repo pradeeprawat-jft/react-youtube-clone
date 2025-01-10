@@ -23,7 +23,7 @@ const WatchPlaylist = () => {
   console.log(snippet);
 
   return (
-    <div className="col-span-11 mt-20 grid grid-cols-12 gap-10 mx-5 ">
+    <div className="col-span-12 mt-20 grid grid-cols-12 gap-10 mx-5 ">
       <div className="col-span-12 md:col-span-7 lg:col-span-8">
         <div className="aspect-w-16 aspect-video">
           <iframe

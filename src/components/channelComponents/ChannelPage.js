@@ -24,7 +24,7 @@ const ChannelPage = () => {
   console.log("banner.banner", banner.banner);
 
   return (
-    <div className="col-span-11 mt-20 border border-gray-100 py-5 px-20 ">
+    <div className="col-span-12 mt-20 border border-gray-100 py-5 px-20 ">
       <div
         className="w-full h-[15rem] rounded-md"
         style={{

@@ -42,16 +42,23 @@ const Head = () => {
   }, [searchQuery]);
 
   const getRecommnendedSearchQuery = async () => {
-    const data = await fetch(
-      `http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${searchQuery}`
-    );
-    const json = await data.json();
-    setRecommended(json[1]);
-    dispatch(
-      cachedResults({
-        [searchQuery]: json[1],
-      })
-    );
+    try {
+      const proxyUrl = "https://api.allorigins.win/raw?url=";
+      const targetUrl = `http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(
+        searchQuery
+      )}`;
+      const response = await fetch(proxyUrl + encodeURIComponent(targetUrl));
+
+      const json = await response.json();
+      setRecommended(json[1]);
+      dispatch(
+        cachedResults({
+          [searchQuery]: json[1],
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching recommended queries:", error);
+    }
   };
 
   const changePage = (item) => {

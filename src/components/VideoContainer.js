@@ -11,7 +11,7 @@ const VideoContainer = () => {
   const memoizedVideos = useMemo(() => videos, [videos]);
   dispatch(openMenu());
   return (
-    <div className="col-span-11 border border-gray-200 mt-20 z-0">
+    <div className="col-span-12 border border-gray-200 mt-20 z-0">
       <ButtonList></ButtonList>
       <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 px-8 ">
         {memoizedVideos.map((video) => (

@@ -11,7 +11,7 @@ const ResultsPage = () => {
   const memoizedVideos = useMemo(() => videos, [videos]);
 
   return (
-    <div className="col-span-11 mx-auto mt-20 px-14">
+    <div className="col-span-12 mx-auto mt-20 px-14">
       <h1 className="text-md font-bold mb-9 pt-6">
         Search Results for "{searchQuery}"
       </h1>
